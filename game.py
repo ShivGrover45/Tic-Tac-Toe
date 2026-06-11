@@ -10,6 +10,11 @@ markers=[]
 clicked = False
 pos=[]
 player1=1
+winner=0
+game_over=False
+#Color Variables
+green=(0, 255, 0)
+blue=(0, 0, 255)
 
 
 screen = pygame.display.set_mode((screen_width, screen_height))
@@ -26,9 +31,37 @@ for x in range(3):
     row = [0] * 3
     markers.append(row)
 
+
+def draw_markers():
+    x_pos=0
+    for x in markers:
+        y_pos=0
+        for y in x:
+            if y==1:
+                pygame.draw.line(screen, green,(x_pos*100+10, y_pos*100+10), (x_pos*100+90, y_pos*100+90), 3)
+                pygame.draw.line(screen, green,(x_pos*100+10, y_pos*100+90), (x_pos*100+90, y_pos*100+10), 3)
+            if y==-1:
+                pygame.draw.circle(screen, blue, (x_pos*100+50, y_pos*100+50), 40, 3)
+            y_pos+=1
+        x_pos+=1
+#function to check for win
+def check_win():
+    for x in markers:
+        if sum(x)==3:
+            winner=1
+            print("Player 1 wins")
+            game_over=True
+        if sum(x)==-3:
+            winner=-1
+            print("Player 2 wins")
+            game_over=True
+
+
+
 run = True
 while run:
     grid()
+    draw_markers()
     for event in pygame.event.get():
         if event.type == QUIT:
             run = False
